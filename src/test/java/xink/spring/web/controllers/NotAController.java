@@ -18,20 +18,7 @@ package xink.spring.web.controllers;
 
 import xink.spring.web.annotation.NoMapping;
 
-public class TestPlainController {
-
-    public TestPlainController() { }
-
-    public String index() { return "index"; }
-
-    public String list() { return null; }
-
-    public void doSomething() { }
-
-    public void init() { }
-
-    public void destroy() { }
-
-    @NoMapping
-    public void notAnAction() {}
+@NoMapping
+public class NotAController {
+    public void index() {}
 }

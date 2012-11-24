@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.condition.*;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import xink.spring.web.annotation.NoMapping;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -77,7 +78,8 @@ public class ConventionalHandlerMapping extends RequestMappingHandlerMapping {
 
     @Override
     protected boolean isHandler(Class<?> beanType) {
-        return beanType.getSimpleName().endsWith(controllerNameSuffix) || super.isHandler(beanType);
+        return findAnnotation(beanType, NoMapping.class) == null &&
+                (beanType.getSimpleName().endsWith(controllerNameSuffix) || super.isHandler(beanType));
     }
 
     @Override
@@ -97,7 +99,9 @@ public class ConventionalHandlerMapping extends RequestMappingHandlerMapping {
         return Modifier.isPublic(method.getModifiers()) && !(
                 name.matches("^(equals|hashCode|toString|clone|notify.*|wait|getClass)")           // methods declared in Object
                         || name.matches("^(init|destroy)")                                         // common lifecycle methods
-                        || name.matches("^([sg]et(MetaClass|Property)|.*\\$.*|invokeMethod)"));    // methods of groovy object
+                        || name.matches("^([sg]et(MetaClass|Property)|.*\\$.*|invokeMethod)")      // methods of groovy object
+                        || findAnnotation(method, NoMapping.class) != null
+        );
     }
 
     /*

@@ -18,6 +18,7 @@ package xink.spring.web;
 
 import org.junit.Before;
 import org.junit.Test;
+import xink.spring.web.controllers.NotAController;
 import xink.spring.web.controllers.TestAnnoController;
 import xink.spring.web.controllers.TestPlainController;
 
@@ -27,9 +28,11 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.springframework.util.ReflectionUtils.MethodCallback;
 import static org.springframework.util.ReflectionUtils.doWithMethods;
+import static org.springframework.util.ReflectionUtils.findMethod;
 
 public class ConventionalHandlerMappingTest {
 
@@ -136,6 +139,19 @@ public class ConventionalHandlerMappingTest {
                 }
             }
         });
+    }
+
+    /**
+     * Configuration overrides convention
+     *
+     * type/method marked with @NoMapping should be ignored
+     */
+    @Test
+    public void testIgnoreNoMapping() {
+        assertFalse(mapping.isHandler(NotAController.class));
+
+        Method method = findMethod(TestPlainController.class, "notAnAction");
+        assertNoMappings(TestPlainController.class, method);
     }
 
     /**
