@@ -15,7 +15,6 @@ Both of them are pretty good, but there's no way to put them together in a singl
 But now, with the cocmvc extension, one is allowed to write a controller like this:
 
 ```java
-
 // maps to /hello
 public class HelloController {
   
@@ -112,7 +111,6 @@ You can override the convention by using [annotations (configurations)](http://s
 For example, I'd like the home page located at `/`, instead of `/home`
 
 ```java
-
 @RequestMapping("/")
 public class HomeController {
 
@@ -127,7 +125,6 @@ public class HomeController {
 or, to use path variables
 
 ```java
-
 public class PersonController {
 
   // handling /person/show
@@ -142,7 +139,6 @@ public class PersonController {
 and sometimes, some special public methods should not be treated as actions
 
 ```java
-
 public class PersonController {
 
   @NoMapping
@@ -171,16 +167,18 @@ Add the following snippet in your gradle build script, or something equivalent i
 ## Configurations
 Huh, there's also a little configuration job to be done, in order to override the default behavior of Spring framework.
 
-    <!-- close spring's annotation-driven to avoid duplicated URL mapping -->
-    <!--<mvc:annotation-driven />-->
+```xml
+<!-- close spring's annotation-driven to avoid duplicated URL mapping -->
+<!--<mvc:annotation-driven />-->
 
-    <!-- add this line to make our action methods to be adapted as request Handlers -->
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
+<!-- add this line to make our action methods to be adapted as request Handlers -->
+<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
 
-    <!-- Enable conventional developing mode,
-      and provides a basePacakge to enabled the modularity feature
-    -->
-    <bean class="xink.spring.web.ConventionalHandlerMapping" p:basePackage="com.abc.controller" />
+<!-- Enable conventional developing mode,
+  and provides a basePacakge to enabled the modularity feature
+-->
+<bean class="xink.spring.web.ConventionalHandlerMapping" p:basePackage="com.abc.controller" />
+```
 
 Enjoy!
 
