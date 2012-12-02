@@ -51,9 +51,9 @@ public class ConventionalHandlerMapping extends RequestMappingHandlerMapping {
     private boolean useSnakeCase = false;
 
     /**
-     * Whether to create mapping for annotationed methods, default is false to avoid producing duplicated mappings
+     * Whether to create mapping for annotationed methods, default is true, set to false if producing duplicated mappings
      */
-    private boolean mapAnnotationedMethod = false;
+    private boolean mapAnnotationedMethod = true;
 
     /**
      * Controller naming convention, the suffix will be removed before producing mapping, default is 'Controller'
@@ -70,7 +70,7 @@ public class ConventionalHandlerMapping extends RequestMappingHandlerMapping {
     }
 
     /**
-     * Whether to create mapping for annotationed methods, default is false to avoid producing duplicated mappings
+     * Whether to create mapping for annotationed methods, default is true, set to false if producing duplicated mappings
      */
     public void setMapAnnotationedMethod(boolean mapAnnotationedMethod) {
         this.mapAnnotationedMethod = mapAnnotationedMethod;
