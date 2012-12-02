@@ -15,6 +15,13 @@
  */
 
 apply plugin: 'war'
+apply plugin: 'jetty'
+
+task wrap(type: Wrapper) {
+  description = 'Create gradle wrapper'
+  gradleVersion = '1.2'
+  scriptFile = 'g'
+}
 
 // -------------------------------------
 // Compiler settings
@@ -23,28 +30,38 @@ sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
 tasks.withType(Compile) {
-    options.encoding = 'utf-8'
+  options.encoding = 'utf-8'
 }
 
 // -------------------------------------
 // Dependencies
 //
 repositories {
-    mavenCentral()
-    mavenRepo url: 'https://raw.github.com/xinthink/repo/master'
+  mavenCentral()
+  mavenRepo url: 'https://raw.github.com/xinthink/repo/master'
 }
 
 dependencies {
-    compile (
-        'org.springframework:spring-webmvc:3.1.2.RELEASE',
-        'javax.servlet:javax.servlet-api:3.1-b02',
-    )
 
-    runtime (
-        'xink.spring:cocmvc:0.1',
-    )
+  compile (
+    'javax.servlet:javax.servlet-api:3.1-b02',
+    'org.slf4j:slf4j-api:1.6.6',
+  )
 
-    testCompile (
-        'junit:junit:4.10',
-    )
+  compile('org.springframework:spring-webmvc:3.1.2.RELEASE') {
+    exclude group: 'commons-logging', module: 'commons-logging'
+  }
+
+  runtime (
+    'ch.qos.logback:logback-classic:1.0.7',
+    'org.slf4j:jcl-over-slf4j:1.6.6',
+  )
+
+  runtime('xink.spring:cocmvc:0.1') {
+    transitive = false
+  }
+
+  testCompile (
+    'junit:junit:4.10',
+  )
 }

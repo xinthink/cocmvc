@@ -9,4 +9,5 @@ build
 /target
 
 # project files
+logs
 README.html
