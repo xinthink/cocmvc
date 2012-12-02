@@ -1,9 +1,12 @@
 # gradle
-/.gradle
-/gradle
-/build
+.gradle
+gradle
+build
 
 # idea
 .idea
 *.iml
 /target
+
+# project files
+README.html
