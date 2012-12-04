@@ -56,6 +56,11 @@ public class ConventionalHandlerMapping extends RequestMappingHandlerMapping {
     private boolean mapAnnotationedMethod = true;
 
     /**
+     * Base package to compute the module name
+     */
+    private String basePackage;
+
+    /**
      * Controller naming convention, the suffix will be removed before producing mapping, default is 'Controller'
      */
     public void setControllerNameSuffix(String controllerNameSuffix) {
@@ -74,6 +79,13 @@ public class ConventionalHandlerMapping extends RequestMappingHandlerMapping {
      */
     public void setMapAnnotationedMethod(boolean mapAnnotationedMethod) {
         this.mapAnnotationedMethod = mapAnnotationedMethod;
+    }
+
+    /**
+     * Base package to compute the module name
+     */
+    public void setBasePackage(String basePackage) {
+        this.basePackage = basePackage;
     }
 
     @Override
@@ -146,9 +158,10 @@ public class ConventionalHandlerMapping extends RequestMappingHandlerMapping {
     }
 
     private String[] buildConventionalControllerPaths(Class handlerType) {
+        String prefix = determineControllerPrefix(handlerType);
         String path = handlerType.getSimpleName();
         if (path.endsWith(controllerNameSuffix)) path = path.substring(0, path.lastIndexOf(controllerNameSuffix));
-        return new String[]{'/' + (useSnakeCase ? toSnakeCase(path) : toCamelCase(path))};
+        return new String[]{ prefix + '/' + (useSnakeCase ? toSnakeCase(path) : toCamelCase(path)) };
     }
 
     private RequestMappingInfo createControllerMapping(RequestMapping mapping, Class<?> handlerType) {
@@ -168,6 +181,18 @@ public class ConventionalHandlerMapping extends RequestMappingHandlerMapping {
                 new ConsumesRequestCondition(annotation.consumes(), annotation.headers()),
                 new ProducesRequestCondition(annotation.produces(), annotation.headers()),
                 customCondition);
+    }
+
+    private String determineControllerPrefix(Class<?> handlerType) {
+        if (basePackage == null) return "";
+
+        String relativePackage = handlerType.getPackage().getName().replaceFirst(basePackage, "");
+        return packageToPath(relativePackage);
+    }
+
+    private String packageToPath(String pack) {
+        String path = pack.replaceAll("\\.", "/");
+        return useSnakeCase ? toSnakeCase(path) : toCamelCase(path);
     }
 
     private String toSnakeCase(String str) {

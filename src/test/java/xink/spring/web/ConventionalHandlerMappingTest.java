@@ -21,18 +21,16 @@ import org.junit.Test;
 import xink.spring.web.controllers.NotAController;
 import xink.spring.web.controllers.TestAnnoController;
 import xink.spring.web.controllers.TestPlainController;
+import xink.spring.web.controllers.module1.ModuleOneController;
+import xink.spring.web.controllers.module1.module11.ModuleOneOneController;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.springframework.util.ReflectionUtils.MethodCallback;
-import static org.springframework.util.ReflectionUtils.doWithMethods;
-import static org.springframework.util.ReflectionUtils.findMethod;
+import static org.junit.Assert.*;
+import static org.springframework.util.ReflectionUtils.*;
 
 public class ConventionalHandlerMappingTest {
 
@@ -142,6 +140,23 @@ public class ConventionalHandlerMappingTest {
     }
 
     /**
+     * Mixed convention and configuration
+     */
+    @Test
+    public void testMixedConventionAndConfiguration() {
+        final Class handlerType = TestAnnoController.class;
+        doWithMethods(handlerType, new MethodCallback() {
+            public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException {
+                String methodName = method.getName();
+
+                if ("conventionalAction".equals(methodName)) {
+                    assertMappingPatterns(handlerType, method, "/test/ann//conventionalAction", "/test/annotation/conventionalAction");
+                }
+            }
+        });
+    }
+
+    /**
      * Configuration overrides convention
      *
      * type/method marked with @NoMapping should be ignored
@@ -154,20 +169,80 @@ public class ConventionalHandlerMappingTest {
         assertNoMappings(TestPlainController.class, method);
     }
 
-    /**
-     * Mixed convention and configuration
-     */
     @Test
-    public void testMixedConventionAndConfiguration() {
-        mapping.setMapAnnotationedMethod(true);
+    public void testModularityMapping() {
+        mapping.setBasePackage("xink.spring.web.controllers");
 
-        final Class handlerType = TestAnnoController.class;
+        final Class handlerType = ModuleOneController.class;
         doWithMethods(handlerType, new MethodCallback() {
             public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException {
                 String methodName = method.getName();
 
-                if ("conventionalAction".equals(methodName)) {
-                    assertMappingPatterns(handlerType, method, "/test/ann//conventionalAction", "/test/annotation/conventionalAction");
+                if ("index".equals(methodName)) {
+                    assertMappingPatterns(handlerType, method, "/module1/moduleOne");
+                } else if ("fooBar".equals(methodName)) {
+                    assertMappingPatterns(handlerType, method, "/module1/moduleOne/fooBar");
+                }
+            }
+        });
+
+        final Class subModuleHandlerType = ModuleOneOneController.class;
+        doWithMethods(handlerType, new MethodCallback() {
+            public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException {
+                String methodName = method.getName();
+
+                if ("index".equals(methodName)) {
+                    assertMappingPatterns(subModuleHandlerType, method, "/module1/module11/moduleOneOne");
+                }
+                else if ("fooBar".equals(methodName)) {
+                    assertMappingPatterns(subModuleHandlerType, method, "/module1/module11/moduleOneOne/fooBar");
+                }
+            }
+        });
+
+        final Class topLevelHandlerType = TestPlainController.class;
+        doWithMethods(handlerType, new MethodCallback() {
+            public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException {
+                String methodName = method.getName();
+
+                if ("index".equals(methodName)) {
+                    assertMappingPatterns(topLevelHandlerType, method, "/testPlain");
+                }
+                else if ("list".equals(methodName)) {
+                    assertMappingPatterns(topLevelHandlerType, method, "/testPlain/list");
+                }
+            }
+        });
+    }
+
+    @Test
+    public void testModularityMappingInSnakeCase() {
+        mapping.setBasePackage("xink.spring.web.controllers");
+        mapping.setUseSnakeCase(true);
+
+        final Class handlerType = ModuleOneController.class;
+        doWithMethods(handlerType, new MethodCallback() {
+            public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException {
+                String methodName = method.getName();
+
+                if ("index".equals(methodName)) {
+                    assertMappingPatterns(handlerType, method, "/module1/module-one");
+                } else if ("fooBar".equals(methodName)) {
+                    assertMappingPatterns(handlerType, method, "/module1/module-one/foo-bar");
+                }
+            }
+        });
+
+        final Class subModuleHandlerType = ModuleOneOneController.class;
+        doWithMethods(handlerType, new MethodCallback() {
+            public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException {
+                String methodName = method.getName();
+
+                if ("index".equals(methodName)) {
+                    assertMappingPatterns(subModuleHandlerType, method, "/module1/module11/module-one-one");
+                }
+                else if ("fooBar".equals(methodName)) {
+                    assertMappingPatterns(subModuleHandlerType, method, "/module1/module11/module-one-one/foo-bar");
                 }
             }
         });
