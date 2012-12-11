@@ -14,20 +14,11 @@
  * limitations under the License.
  */
 
-package xink.spring.web.annotation;
+package net.sf.cocmvc.controllers;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import net.sf.cocmvc.annotation.NoMapping;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-/**
- * Controllers and methods with this Annotation will be ignored by the COC mapping.
- * @author ywu
- */
-@Target({TYPE, METHOD})
-@Retention(RUNTIME)
-public @interface NoMapping {
+@NoMapping
+public class NotAController {
+    public void index() {}
 }

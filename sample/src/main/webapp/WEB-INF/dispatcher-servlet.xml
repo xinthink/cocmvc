@@ -34,7 +34,7 @@
   <!-- Enable conventional developing mode,
     and provides a basePacakge to enabled the modularity feature
   -->
-  <bean class="xink.spring.web.ConventionalHandlerMapping" p:basePackage="sample.controller" />
+  <bean class="net.sf.cocmvc.ConventionalHandlerMapping" p:basePackage="sample.controller" />
 
   <!-- static resources -->
   <mvc:resources mapping="/static/**" location="/WEB-INF/static" />

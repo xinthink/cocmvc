@@ -177,7 +177,7 @@ Huh, there's also a little configuration job to be done, in order to override th
 <!-- Enable conventional developing mode,
   and provides a basePacakge to enabled the modularity feature
 -->
-<bean class="xink.spring.web.ConventionalHandlerMapping" p:basePackage="com.abc.controller" />
+<bean class="net.sf.cocmvc.ConventionalHandlerMapping" p:basePackage="com.abc.controller" />
 ```
 
 Enjoy!

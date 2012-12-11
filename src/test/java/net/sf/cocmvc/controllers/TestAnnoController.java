@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
-package xink.spring.web.controllers.module1.module11;
+package net.sf.cocmvc.controllers;
 
-/**
- * @author ywu
- */
-public class ModuleOneOneController {
-    public void index() {}
-    public void fooBar() {}
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequestMapping({"test/ann/", "/test/annotation"})
+public class TestAnnoController {
+
+    @RequestMapping("action1")
+    public void relativePath() {}
+
+    @RequestMapping("/action2")
+    public void absolutePath() {}
+
+    public void conventionalAction() {}
 }

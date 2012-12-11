@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package xink.spring.web.controllers.module1;
+package net.sf.cocmvc.controllers.module1;
 
 /**
  * @author ywu

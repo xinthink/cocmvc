@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package xink.spring.web;
+package net.sf.cocmvc;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.condition.*;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import xink.spring.web.annotation.NoMapping;
+import net.sf.cocmvc.annotation.NoMapping;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;

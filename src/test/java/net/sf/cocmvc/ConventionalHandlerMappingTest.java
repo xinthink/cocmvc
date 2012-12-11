@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package xink.spring.web;
+package net.sf.cocmvc;
 
+import net.sf.cocmvc.controllers.NotAController;
+import net.sf.cocmvc.controllers.TestAnnoController;
+import net.sf.cocmvc.controllers.TestPlainController;
+import net.sf.cocmvc.controllers.module1.ModuleOneController;
+import net.sf.cocmvc.controllers.module1.module11.ModuleOneOneController;
 import org.junit.Before;
 import org.junit.Test;
-import xink.spring.web.controllers.NotAController;
-import xink.spring.web.controllers.TestAnnoController;
-import xink.spring.web.controllers.TestPlainController;
-import xink.spring.web.controllers.module1.ModuleOneController;
-import xink.spring.web.controllers.module1.module11.ModuleOneOneController;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -171,7 +171,7 @@ public class ConventionalHandlerMappingTest {
 
     @Test
     public void testModularityMapping() {
-        mapping.setBasePackage("xink.spring.web.controllers");
+        mapping.setBasePackage("net.sf.cocmvc.controllers");
 
         final Class handlerType = ModuleOneController.class;
         doWithMethods(handlerType, new MethodCallback() {
@@ -217,7 +217,7 @@ public class ConventionalHandlerMappingTest {
 
     @Test
     public void testModularityMappingInSnakeCase() {
-        mapping.setBasePackage("xink.spring.web.controllers");
+        mapping.setBasePackage("net.sf.cocmvc.controllers");
         mapping.setUseSnakeCase(true);
 
         final Class handlerType = ModuleOneController.class;

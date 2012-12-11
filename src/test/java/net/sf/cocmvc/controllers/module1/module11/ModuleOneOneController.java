@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package xink.spring.web.controllers;
+package net.sf.cocmvc.controllers.module1.module11;
 
-import xink.spring.web.annotation.NoMapping;
-
-@NoMapping
-public class NotAController {
+/**
+ * @author ywu
+ */
+public class ModuleOneOneController {
     public void index() {}
+    public void fooBar() {}
 }

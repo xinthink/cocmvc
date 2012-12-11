@@ -14,18 +14,24 @@
  * limitations under the License.
  */
 
-package xink.spring.web.controllers;
+package net.sf.cocmvc.controllers;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import net.sf.cocmvc.annotation.NoMapping;
 
-@RequestMapping({"test/ann/", "/test/annotation"})
-public class TestAnnoController {
+public class TestPlainController {
 
-    @RequestMapping("action1")
-    public void relativePath() {}
+    public TestPlainController() { }
 
-    @RequestMapping("/action2")
-    public void absolutePath() {}
+    public String index() { return "index"; }
 
-    public void conventionalAction() {}
+    public String list() { return null; }
+
+    public void doSomething() { }
+
+    public void init() { }
+
+    public void destroy() { }
+
+    @NoMapping
+    public void notAnAction() {}
 }
