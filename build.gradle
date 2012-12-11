@@ -18,12 +18,62 @@ apply from: "$snippetsRepo/java-prj.gradle"
 apply from: "$snippetsRepo/maven.gradle"
 
 buildscript {
-    apply from: "$snippetsRepo/java-buildscript.gradle"
+  apply from: "$snippetsRepo/java-buildscript.gradle"
 }
 
 dependencies {
-    compile (
-        'org.springframework:spring-webmvc:3.1.2.RELEASE',
-        'javax.servlet:javax.servlet-api:3.1-b02',
-    )
+  compile (
+    'org.springframework:spring-webmvc:3.1.2.RELEASE',
+    'javax.servlet:javax.servlet-api:3.1-b02',
+  )
+}
+
+project.ext.isSnapshot = project.version =~ /^.+SNAPSHOT.*$/
+
+project.ext.pomCfg = {
+  name 'COC Web WVC'
+  description 'Convention Over Configuration extension to Spring Web WVC'
+  url 'https://github.com/xinthink/cocmvc'
+  artifactId project.artifact
+  packaging 'jar'
+  licenses {
+    license {
+      name 'The Apache Software License, Version 2.0'
+      url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+      distribution 'repo'
+    }
+  }
+  scm {
+    url 'https://github.com/xinthink/cocmvc'
+    connection 'scm:git://github.com/xinthink/cocmvc.git'
+    developerConnection 'scm:git@github.com:xinthink/cocmvc.git'
+  }
+  developers {
+    developer {
+      id 'xinthink'
+      name 'Yingxin Wu'
+      email 'yingxinwu.g@gmail.com'
+    }
+  }
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      
+      // repository(url: "file:///ws/repo")
+      repository(url: isSnapshot ? sonatypeSnapshotRepo : sonatypeStageRepo) {
+        authentication(userName: sonatypeUsername, password: sonatypePassword)
+      }
+      pom.project project.pomCfg
+    }
+  }
+}
+
+jarSrc {
+  baseName = "${project.artifact}"
+}
+
+jarDoc {
+  baseName = "${project.artifact}"
 }
