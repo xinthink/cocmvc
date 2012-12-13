@@ -38,7 +38,7 @@ tasks.withType(Compile) {
 //
 repositories {
   mavenCentral()
-  mavenRepo url: 'https://raw.github.com/xinthink/repo/master'
+  mavenRepo url: 'https://oss.sonatype.org/content/groups/public'
 }
 
 dependencies {
@@ -49,7 +49,7 @@ dependencies {
     exclude group: 'commons-logging', module: 'commons-logging'
   }
   
-  compile('xink.spring:cocmvc:0.1') {
+  compile('net.sf.cocmvc:spring-cocmvc-ext:1.0') {
     transitive = false
   }
 
