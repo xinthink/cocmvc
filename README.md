@@ -157,12 +157,12 @@ Add the following snippet in your gradle build script, or something equivalent i
 
     repositories {
         mavenCentral()
-        mavenRepo url: 'https://raw.github.com/xinthink/repo/master'
     }
 
     dependencies {
-        runtime 'xink.spring:cocmvc:0.1'
+        compile 'net.sf.cocmvc:spring-cocmvc-ext:1.0'
     }
+*please refer to the [sample build file](https://github.com/xinthink/cocmvc/blob/master/sample/build.gradle)
 
 ## Configurations
 Huh, there's also a little configuration job to be done, in order to override the default behavior of Spring framework.
