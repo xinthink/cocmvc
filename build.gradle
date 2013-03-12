@@ -70,10 +70,6 @@ uploadArchives {
   }
 }
 
-jarSrc {
-  baseName = "${project.artifact}"
-}
-
-jarDoc {
+tasks.withType(Jar) {
   baseName = "${project.artifact}"
 }
