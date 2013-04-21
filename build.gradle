@@ -57,15 +57,6 @@ project.ext.pomCfg = {
   }
 }
 
-uploadArchives.repositories.mavenDeployer {
-      
-      // repository(url: "file:///ws/repo")
-      repository(url: isSnapshot ? sonatypeSnapshotRepo : sonatypeStageRepo) {
-        authentication(userName: sonatypeUsername, password: sonatypePassword)
-      }
-      pom.project project.pomCfg
-}
-
 tasks.withType(Jar) {
   baseName = "${project.artifact}"
 }
