@@ -19,7 +19,7 @@ apply plugin: 'jetty'
 
 task wrap(type: Wrapper) {
   description = 'Create gradle wrapper'
-  gradleVersion = '1.2'
+  gradleVersion = '1.5'
   scriptFile = 'g'
 }
 
@@ -41,13 +41,14 @@ repositories {
   mavenRepo url: 'https://oss.sonatype.org/content/groups/public'
 }
 
+configurations {
+  all*.exclude group: 'commons-logging', module: 'commons-logging'
+}
+
 dependencies {
 
-  compile 'org.slf4j:slf4j-api:1.6.6'
-
-  compile('org.springframework:spring-webmvc:3.1.2.RELEASE') {
-    exclude group: 'commons-logging', module: 'commons-logging'
-  }
+  compile 'org.slf4j:slf4j-api:1.6.6',
+    'org.springframework:spring-webmvc:3.1.2.RELEASE'
   
   compile('net.sf.cocmvc:spring-cocmvc-ext:1.0') {
     transitive = false
@@ -55,12 +56,8 @@ dependencies {
 
   providedCompile 'javax.servlet:javax.servlet-api:3.1-b02'
 
-  runtime (
-    'ch.qos.logback:logback-classic:1.0.7',
-    'org.slf4j:jcl-over-slf4j:1.6.6',
-  )
+  runtime 'ch.qos.logback:logback-classic:1.0.7',
+    'org.slf4j:jcl-over-slf4j:1.6.6'
 
-  testCompile (
-    'junit:junit:4.10',
-  )
+  testCompile 'junit:junit:4.10'
 }
